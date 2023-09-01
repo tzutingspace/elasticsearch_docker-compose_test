@@ -4,6 +4,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
     restart: on-failure
     container_name: es01
+    entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
     environment:
       - node.name=es01
       - cluster.name=es-docker-cluster
@@ -17,6 +18,8 @@ services:
         hard: -1
     volumes:
       - data01:/usr/share/elasticsearch/data
+      - plugin_volume:/usr/share/elasticsearch/plugins
+      - .:/apps
     ports:
       - 9200:9200
     networks:
@@ -24,6 +27,7 @@ services:
   es02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
     container_name: es02
+    entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
     restart: on-failure
     environment:
       - node.name=es02
@@ -38,6 +42,8 @@ services:
         hard: -1
     volumes:
       - data02:/usr/share/elasticsearch/data
+      - plugin_volume:/usr/share/elasticsearch/plugins
+      - .:/apps
     networks:
       - elastic
   kibana:
@@ -55,6 +61,8 @@ volumes:
   data01:
     driver: local
   data02:
+    driver: local
+  plugin_volume:
     driver: local
 
 networks:
