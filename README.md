@@ -11,4 +11,6 @@
 - docker-compose up -d 
 - docker-compose down
 
+- Add plugin REFERENCE: https://blog.csdn.net/fxtxz2/article/details/105066242
+
 目前 data 存在 docker local, 重新啟動資料還會在
