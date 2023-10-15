@@ -1,4 +1,5 @@
 - REFERENCE: https://myapollo.com.tw/blog/docker-elasticsearch/
+- REFERENCE: https://mark-lin.com/posts/20180401/ (更詳細的說明參數的意義)
 
 - docker-compose.yml 檔:
   - 該檔案修改自官方所提供之範例。
