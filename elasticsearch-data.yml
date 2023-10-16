@@ -5,12 +5,6 @@ transport:
     port: 9300
 network:
   host: 0.0.0.0
-node:
-  master: false
-  data: true
-  ingest: true
-  ml: false
-  voting_only: false
 cluster:
   name: elasticsearch
   initial_master_nodes: 
@@ -19,3 +13,9 @@ cluster:
 discovery:
   seed_hosts: ["es-master"]
 bootstrap.memory_lock: true
+node:
+  master: false
+  data: true
+  ingest: true
+  ml: false
+  voting_only: false
