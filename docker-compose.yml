@@ -1,10 +1,10 @@
-version: '2.2'
+version: '3.0'
 services:
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    restart: on-failure
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    # restart: on-failure
     container_name: es01
-    entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
+    # entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
     environment:
       - node.name=es01
       - cluster.name=es-docker-cluster
@@ -25,10 +25,10 @@ services:
     networks:
       - elastic
   es02:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
     container_name: es02
-    entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
-    restart: on-failure
+    # entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
+    # restart: on-failure
     environment:
       - node.name=es02
       - cluster.name=es-docker-cluster
@@ -49,7 +49,7 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.10.1
     container_name: kibana
-    restart: on-failure
+    # restart: on-failure
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     networks:
@@ -67,4 +67,5 @@ volumes:
 
 networks:
   elastic:
+    name: elastic
     driver: bridge
