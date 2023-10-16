@@ -1,0 +1,15 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+
+# COPY --chown=elasticsearch:elasticsearch ./elasticsearch-data.yml /usr/share/elasticsearch/config/
+
+RUN echo y | bin/elasticsearch-plugin install repository-gcs
+RUN echo y | bin/elasticsearch-plugin install discovery-gce
+RUN echo y | bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip
+
+EXPOSE 9200 9300
+
+LABEL org.label-schema.build-date="2019-10-28T20:40:44.883016Z"   org.label-schema.license="Elastic-License"   org.label-schema.name="Elasticsearch"   org.label-schema.schema-version="1.0"   org.label-schema.url="https://www.elastic.co/products/elasticsearch"   org.label-schema.usage="https://www.elastic.co/guide/en/elasticsearch/reference/index.html"   org.label-schema.vcs-ref="2f90bbf7b93631e52bafb59b3b049cb44ec25e96"   org.label-schema.vcs-url="https://github.com/elastic/elasticsearch"   org.label-schema.vendor="Elastic"   org.label-schema.version="7.4.2"   org.opencontainers.image.created="2019-10-28T20:40:44.883016Z"   org.opencontainers.image.documentation="https://www.elastic.co/guide/en/elasticsearch/reference/index.html"   org.opencontainers.image.licenses="Elastic-License"   org.opencontainers.image.revision="2f90bbf7b93631e52bafb59b3b049cb44ec25e96"   org.opencontainers.image.source="https://github.com/elastic/elasticsearch"   org.opencontainers.image.title="Elasticsearch"   org.opencontainers.image.url="https://www.elastic.co/products/elasticsearch"   org.opencontainers.image.vendor="Elastic"   org.opencontainers.image.version="7.4.2"
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+# Dummy overridable parameter parsed by entrypoint
+CMD ["eswrapper"]

@@ -1,11 +1,11 @@
 version: '2.2'
 services:
   es-master:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2elasticsearch
-    # image: my-custom-es-master:7.4.2elasticsearch
-    # build:
-    #   context: ./
-    #   dockerfile: Dockerfile.es-master
+    # image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    image: my-custom-es-master:7.4.2elasticsearch
+    build:
+      context: ./
+      dockerfile: Dockerfile.es-master
     container_name: es-master
     environment:
       - node.name=es-master
@@ -28,11 +28,11 @@ services:
   es-data01:
     depends_on:
       - es-master
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
-    # image: my-custom-es-data:7.4.2
-    # build:
-    #   context: ./
-    #   dockerfile: Dockerfile.es-data
+    # image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    image: my-custom-es-data:7.4.2
+    build:
+      context: ./
+      dockerfile: Dockerfile.es-data
     container_name: es-data01
     environment:
       - node.name=es-data01
@@ -50,8 +50,8 @@ services:
     networks:
       - elastic
   es-data02:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
-    # image: my-custom-es-data:7.4.2
+    # image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    image: my-custom-es-data:7.4.2
     container_name: es-data02
     environment:
       - node.name=es-data02
@@ -65,7 +65,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data02:/usr/share/elasticsearch/data
+      - es-data02:/usr/share/elasticsearch/data
     networks:
       - elastic
 
