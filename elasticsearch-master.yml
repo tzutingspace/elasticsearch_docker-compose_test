@@ -17,6 +17,6 @@ node:
   name: es-master
   master: true
   data: false
-  ingest: false
+  ingest: true
   ml: false
   voting_only: false
