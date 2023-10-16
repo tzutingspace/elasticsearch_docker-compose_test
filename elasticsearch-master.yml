@@ -1,0 +1,20 @@
+http:
+  port: 9200
+transport:
+  tcp:
+    port: 9300
+network:
+  host: 0.0.0.0
+node:
+  name: es-master
+  master: true
+  data: false
+  ingest: false
+cluster:
+  name: elasticsearch
+  initial_master_nodes: 
+    - es-master
+discovery:
+  seed_hosts: ["es-master"]
+bootstrap.memory_lock: true
+

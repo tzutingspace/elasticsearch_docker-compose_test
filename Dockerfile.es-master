@@ -1,6 +1,6 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.4.2
 
-# COPY --chown=elasticsearch:elasticsearch ./elasticsearch-master.yml /usr/share/elasticsearch/config/
+COPY --chown=elasticsearch:elasticsearch ./elasticsearch-master.yml /usr/share/elasticsearch/config/elasticsearch.yml
 RUN echo y | bin/elasticsearch-plugin install repository-gcs
 RUN echo y | bin/elasticsearch-plugin install discovery-gce
 RUN echo y | bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip
