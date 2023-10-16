@@ -46,7 +46,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data01:/usr/share/elasticsearch/data
+      - es-data01:/usr/share/elasticsearch/data
     networks:
       - elastic
   es-data02:
@@ -85,9 +85,9 @@ services:
 volumes:
   es-master:
     driver: local
-  data02:
+  es-data01:
     driver: local
-  data03:
+  es-data02:
     driver: local
 
 networks:
