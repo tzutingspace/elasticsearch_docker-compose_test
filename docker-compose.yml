@@ -1,15 +1,44 @@
-version: '3.0'
+version: '2.2'
 services:
-  es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
-    # restart: on-failure
-    container_name: es01
-    # entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
+  es-master:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2elasticsearch
+    # image: my-custom-es-master:7.4.2elasticsearch
+    # build:
+    #   context: ./
+    #   dockerfile: Dockerfile.es-master
+    container_name: es-master
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es02
-      - cluster.initial_master_nodes=es01,es02
+      - node.name=es-master
+      - cluster.name=elasticsearch
+      - discovery.seed_hosts=es-data01,es-data02
+      - cluster.initial_master_nodes=es-master
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-master:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+  es-data01:
+    depends_on:
+      - es-master
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    # image: my-custom-es-data:7.4.2
+    # build:
+    #   context: ./
+    #   dockerfile: Dockerfile.es-data
+    container_name: es-data01
+    environment:
+      - node.name=es-data01
+      - cluster.name=elasticsearch
+      - discovery.seed_hosts=es-master
+      - cluster.initial_master_nodes=es-master
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -18,22 +47,17 @@ services:
         hard: -1
     volumes:
       - data01:/usr/share/elasticsearch/data
-      - plugin_volume:/usr/share/elasticsearch/plugins
-      - .:/apps
-    ports:
-      - 9200:9200
     networks:
       - elastic
-  es02:
+  es-data02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
-    container_name: es02
-    # entrypoint: ["sh", "/apps/docker-entrypoint-es-plugins.sh"]
-    # restart: on-failure
+    # image: my-custom-es-data:7.4.2
+    container_name: es-data02
     environment:
-      - node.name=es02
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01
-      - cluster.initial_master_nodes=es01,es02
+      - node.name=es-data02
+      - cluster.name=elasticsearch
+      - discovery.seed_hosts=es-master
+      - cluster.initial_master_nodes=es-master
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -42,30 +66,30 @@ services:
         hard: -1
     volumes:
       - data02:/usr/share/elasticsearch/data
-      - plugin_volume:/usr/share/elasticsearch/plugins
-      - .:/apps
     networks:
       - elastic
+
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
-    container_name: kibana
+    depends_on:
+      - es-master
+    image: docker.elastic.co/kibana/kibana:7.4.2
     # restart: on-failure
+    container_name: kibana
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
     networks:
       - elastic
-    ports:
-      - 5601:5601
 
 volumes:
-  data01:
+  es-master:
     driver: local
   data02:
     driver: local
-  plugin_volume:
+  data03:
     driver: local
 
 networks:
   elastic:
-    name: elastic
     driver: bridge
