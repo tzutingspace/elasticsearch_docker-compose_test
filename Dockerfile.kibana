@@ -1,11 +1,13 @@
-# FROM docker.io/bitnami/kibana:7.4.2
+# Reference: https://www.elastic.co/guide/en/cloud-enterprise/current/ece-include-additional-kibana-plugin.html#ece-create-modified-docker-image
+# https://github.com/elastic/dockerfiles/blob/794a8cd3e34dd08e354838195e1c90d22d08467d/kibana/Dockerfile
+FROM docker.io/bitnami/kibana:7.4.2
 
-# COPY ./kibana.yml opt/bitnami/kibana/config/kibana.yml
+COPY ./kibana.yml /usr/share/kibana/config/kibana.yml
 
-# RUN echo y | /opt/bitnami/kibana/bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.4.2/analyze_api_ui-7.4.2.zip
+RUN /kibana/bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.4.2/analyze_api_ui-7.4.2.zip --allow-root
 
-# EXPOSE 5601
+EXPOSE 5601
 
-# USER kibana
-# ENTRYPOINT [ "/app-entrypoint.sh" ]
-# CMD [ "/usr/local/bin/kibana-docker" ]
+USER kibana
+ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
+CMD ["/usr/local/bin/kibana-docker"]
