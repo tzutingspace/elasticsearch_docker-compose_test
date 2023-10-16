@@ -6,10 +6,9 @@ transport:
 network:
   host: 0.0.0.0
 node:
-  name: es-master
-  master: true
-  data: false
-  ingest: false
+  master: false
+  data: true
+  ingest: true
   ml: false
   voting_only: false
 cluster:
