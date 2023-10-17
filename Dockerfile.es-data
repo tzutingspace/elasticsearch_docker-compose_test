@@ -2,7 +2,7 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.4.2
 
 COPY --chown=elasticsearch:elasticsearch ./elasticsearch-data.yml /usr/share/elasticsearch/config/elasticsearch.yml
-# COPY ./credentials_file.json /usr/share/elasticsearch/config/credentials_file/gcs.client.nysc.credentials_file
+COPY ./credentials_file.json /usr/share/elasticsearch/gcs.client.nysc.credentials_file.json
 
 RUN echo y | bin/elasticsearch-plugin install repository-gcs \ 
   && echo y | bin/elasticsearch-plugin install discovery-gce \
