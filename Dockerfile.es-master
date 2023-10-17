@@ -6,8 +6,9 @@ COPY ./credentials_file.json /usr/share/elasticsearch/gcs.client.nysc.credential
 
 RUN echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-gcs \ 
   && echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install discovery-gce \
-  && echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip \
-  && /usr/share/elasticsearch/bin/elasticsearch-keystore add-file gcs.client.nysc.credentials_file /usr/share/elasticsearch/gcs.client.nysc.credentials_file.json
+  && echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip 
+
+RUN /usr/share/elasticsearch/bin/elasticsearch-keystore add-file gcs.client.nysc.credentials_file /usr/share/elasticsearch/gcs.client.nysc.credentials_file.json
 
 EXPOSE 9200 9300
 
