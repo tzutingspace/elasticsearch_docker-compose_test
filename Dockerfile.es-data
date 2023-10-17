@@ -4,9 +4,10 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:7.4.2
 COPY --chown=elasticsearch:elasticsearch ./elasticsearch-data.yml /usr/share/elasticsearch/config/elasticsearch.yml
 COPY ./credentials_file.json /usr/share/elasticsearch/gcs.client.nysc.credentials_file.json
 
-RUN echo y | bin/elasticsearch-plugin install repository-gcs \ 
-  && echo y | bin/elasticsearch-plugin install discovery-gce \
-  && echo y | bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip
+RUN echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-gcs \ 
+  && echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install discovery-gce \
+  && echo y | /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip \
+  && echo y | /usr/share/elasticsearch/bin/elasticsearch-keystore add-file gcs.client.nysc.credentials_file /usr/share/elasticsearch/gcs.client.nysc.credentials_file.json
 
 EXPOSE 9200 9300
 
