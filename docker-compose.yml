@@ -88,6 +88,15 @@ services:
       - "5601:5601"
     networks:
       - elastic
+    secrets:
+      - kibana_encryption_key
+    environment:
+      XPACK_REPORTING_ENCRYPTIONKEY_FILE: /run/secrets/kibana_encryption_key
+
+
+secrets:
+  kibana_encryption_key:
+    file: ./kibana_encryption_key.txt
 
 volumes:
   es-master:
