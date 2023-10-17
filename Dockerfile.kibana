@@ -5,6 +5,7 @@ FROM docker.elastic.co/kibana/kibana:7.4.2
 COPY ./kibana.yml /usr/share/kibana/config/kibana.yml
 
 RUN /usr/share/kibana/bin/kibana-plugin install https://github.com/johtani/analyze-api-ui-plugin/releases/download/7.4.2/analyze_api_ui-7.4.2.zip --allow-root
+RUN npm update
 EXPOSE 5601
 
 USER kibana
