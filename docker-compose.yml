@@ -6,7 +6,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.es-master
-    # restart: on-failure
     container_name: es-master
     environment:
       - node.name=es-master
@@ -21,6 +20,7 @@ services:
         hard: -1
     volumes:
       - es-master:/usr/share/elasticsearch/data
+      - /var/es-compose/elasticsearch_docker-compose_test/cre:/usr/share/elasticsearch/config/cre
     ports:
       - 9200:9200
     networks:
@@ -34,7 +34,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.es-data
-    # restart: on-failure
     container_name: es-data01
     environment:
       - node.name=es-data01
@@ -49,12 +48,12 @@ services:
         hard: -1
     volumes:
       - es-data01:/usr/share/elasticsearch/data
+      - /var/es-compose/elasticsearch_docker-compose_test/cre:/usr/share/elasticsearch/config/cre
     networks:
       - elastic
   es-data02:
     # image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
     image: my-custom-es-data:7.4.2
-    # restart: on-failure
     container_name: es-data02
     environment:
       - node.name=es-data02
@@ -69,6 +68,7 @@ services:
         hard: -1
     volumes:
       - es-data02:/usr/share/elasticsearch/data
+      - /var/es-compose/elasticsearch_docker-compose_test/cre:/usr/share/elasticsearch/config/cre
     networks:
       - elastic
 
